@@ -1,0 +1,5 @@
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PREFIX="$SCRIPT_DIR/tools"
+BIN_DIR="$PREFIX/bin"
+
+export PATH="$BIN_DIR:$PATH"

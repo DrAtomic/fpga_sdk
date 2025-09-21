@@ -10,8 +10,9 @@ mkdir -p "$TOOLS_DIR"/sources
 
 pushd "$TOOLS_DIR"/sources
 
+# my own fork with modified logging so it doesn't annoy emacs
 if [ ! -d "yosys" ]; then
-    git clone --branch=v0.57 --depth 1 https://github.com/YosysHQ/yosys.git
+    git clone --branch=v0.57a --depth 1 https://github.com/DrAtomic/yosys.git
 fi
 pushd yosys
 git submodule update --init

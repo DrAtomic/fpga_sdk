@@ -45,7 +45,7 @@ if [ ! -d "icestorm" ]; then
     git clone --branch=v0.0.1 --depth 1 https://github.com/DrAtomic/icestorm
 fi
 pushd icestorm
-make
+make -j $JOBS
 make PREFIX="$TOOLS_DIR" install
 popd
 

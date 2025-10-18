@@ -4,7 +4,7 @@ set -e
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 TOOLS_DIR="$SCRIPT_DIR/tools"
-JOBS=6
+JOBS=$(($(nproc) - 1))
 
 mkdir -p "$TOOLS_DIR"/sources
 
@@ -76,6 +76,16 @@ if [ ! -d "iverilog" ]; then
 fi
 pushd iverilog
 sh autoconf.sh
+./configure --prefix="$TOOLS_DIR"
+make -j $JOBS
+make install
+popd
+
+if [ ! -d "verilator" ]; then
+    git clone --branch=v5.040 --depth 1 https://github.com/verilator/verilator.git
+fi
+pushd verilator
+autoconf
 ./configure --prefix="$TOOLS_DIR"
 make -j $JOBS
 make install

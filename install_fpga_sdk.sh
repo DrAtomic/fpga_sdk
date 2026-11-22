@@ -11,16 +11,18 @@ mkdir -p "$TOOLS_DIR"/sources
 pushd "$TOOLS_DIR"/sources
 
 if [ ! -d "yosys" ]; then
-    git clone --branch=v0.64 --depth 1 https://github.com/YosysHQ/yosys.git
+    git clone --branch=main --depth 1 https://github.com/DrAtomic/yosys.git
 fi
 pushd yosys
 git submodule update --init
+mkdir -p build && cd build
+cmake .. -DCMAKE_INSTALL_PREFIX="$TOOLS_DIR"
 make -j $JOBS
-make PREFIX="$TOOLS_DIR" install
+make install
 popd
 
 if [ ! -d "ghdl" ]; then
-    git clone --branch=v6.0.0 --depth 1 https://github.com/ghdl/ghdl.git
+    git clone --branch=master --depth 1 https://github.com/DrAtomic/ghdl.git
 fi
 pushd ghdl
 ./configure --prefix="$TOOLS_DIR"
@@ -30,7 +32,7 @@ popd
 
 ## depends on ghdl and yosys
 if [ ! -d "ghdl-yosys-plugin" ]; then
-    git clone --branch=ghdl-v6.0.0 --depth 1 https://github.com/ghdl/ghdl-yosys-plugin.git
+    git clone --branch=master --depth 1 https://github.com/DrAtomic/ghdl-yosys-plugin.git
 fi
 pushd ghdl-yosys-plugin
 make CFLAGS="-I/$TOOLS_DIR/share/yosys/include" YOSYS_CONFIG="$TOOLS_DIR"/bin/yosys-config GHDL="$TOOLS_DIR"/bin/ghdl
@@ -38,7 +40,6 @@ mkdir -p "$TOOLS_DIR"/share/yosys/plugins
 cp ghdl.so "$TOOLS_DIR"/share/yosys/plugins
 popd
 
-## my fork so I can use the tag
 if [ ! -d "icestorm" ]; then
     git clone --branch=v0.0.1 --depth 1 https://github.com/DrAtomic/icestorm
 fi

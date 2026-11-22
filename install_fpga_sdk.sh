@@ -49,7 +49,7 @@ popd
 
 # depends on icestorm
 if [ ! -d "nextpnr" ]; then
-    git clone --branch=nextpnr-0.10 --depth 1 https://github.com/YosysHQ/nextpnr.git
+    git clone --branch=main --depth 1 https://github.com/DrAtomic/nextpnr
 fi
 pushd nextpnr
 git submodule update --init --recursive
